@@ -1543,7 +1543,7 @@ static struct page *allocate_slab(struct kmem_cache *s, gfp_t flags, int node)
 	if (gfpflags_allow_blocking(flags))
 		enableirqs = true;
 #ifdef CONFIG_PREEMPT_RT_FULL
-	if (system_state == SYSTEM_RUNNING)
+	if (system_state > SYSTEM_BOOTING_SINGLECORE)
 		enableirqs = true;
 #endif
 	if (enableirqs)
