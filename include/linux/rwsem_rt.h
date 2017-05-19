@@ -47,7 +47,7 @@ do {							\
 
 static inline int rwsem_is_locked(struct rw_semaphore *sem)
 {
-	return atomic_read(&sem->readers) != READER_BIAS;
+	return atomic_read(&sem->readers) != (int)READER_BIAS;
 }
 
 static inline int rwsem_is_contended(struct rw_semaphore *sem)
