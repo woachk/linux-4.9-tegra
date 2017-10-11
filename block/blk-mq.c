@@ -76,7 +76,7 @@ EXPORT_SYMBOL_GPL(blk_mq_freeze_queue_wait);
 int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
 				     unsigned long timeout)
 {
-	return wait_event_timeout(q->mq_freeze_wq,
+	return swait_event_timeout(q->mq_freeze_wq,
 					percpu_ref_is_zero(&q->q_usage_counter),
 					timeout);
 }
