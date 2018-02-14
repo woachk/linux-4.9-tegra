@@ -1664,6 +1664,7 @@ static void call_force_console_drivers(const char *force_text,
 		if (con->flags & CON_FORCE_LEVEL)
 			con->write(con, force_text, force_len);
 	}
+	migrate_enable();
 }
 
 /*
@@ -1707,7 +1708,6 @@ static void call_console_drivers(int level,
 		else
 			con->write(con, text, len);
 	}
-	migrate_enable();
 }
 
 int printk_delay_msec __read_mostly;
@@ -2348,10 +2348,10 @@ static void console_cont_flush(char *text, size_t size)
 	len = cont_print_text(text, size);
 #ifdef CONFIG_PREEMPT_RT_FULL
 	raw_spin_unlock_irqrestore(&logbuf_lock, flags);
-	call_console_drivers(cont.level, NULL, 0, text, len);
 #else
 	raw_spin_unlock(&logbuf_lock);
 	stop_critical_timings();
+#endif
 	call_console_drivers(cont.level, NULL, 0, text, len);
 
 	/* Add prefix in case console is with CON_FORCE_LEVEL */
@@ -2369,6 +2369,7 @@ static void console_cont_flush(char *text, size_t size)
 		call_force_console_drivers(text, len);
 	}
 
+#ifndef CONFIG_PREEMPT_RT_FULL
 	start_critical_timings();
 	local_irq_restore(flags);
 #endif
@@ -2510,6 +2511,7 @@ skip:
 #ifdef CONFIG_PREEMPT_RT_FULL
 		printk_safe_exit_irqrestore(flags);
 		call_console_drivers(level, ext_text, ext_len, text, len);
+		call_force_console_drivers(force_text, force_len);
 #else
 
 		stop_critical_timings();	/* don't trace print latency */
