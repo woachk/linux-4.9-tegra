@@ -5,8 +5,6 @@ config ANDROID
 	---help---
 	  Enable support for various drivers needed on the Android platform
 
-if ANDROID
-
 config ANDROID_BINDER_IPC
 	bool "Android Binder IPC Driver"
 	depends on MMU && !M68K
@@ -30,6 +28,8 @@ config ANDROID_BINDER_DEVICES
 	  that specifies the names of the binder device nodes that will be
 	  created. Each binder device has its own context manager, and is
 	  therefore logically separated from the other devices.
+
+if ANDROID
 
 config ANDROID_BINDER_IPC_SELFTEST
 	bool "Android Binder IPC Driver Selftest"
