@@ -5088,7 +5088,6 @@ CONFIG_INA3221=y
 #
 # Android
 #
-# CONFIG_ASHMEM is not set
 # CONFIG_FIQ_DEBUGGER is not set
 # CONFIG_FIQ_WATCHDOG is not set
 CONFIG_SYNC=y
@@ -5665,7 +5664,6 @@ CONFIG_ARM64_RAS=y
 # Android
 #
 # CONFIG_ANDROID is not set
-# CONFIG_ANDROID_BINDER_IPC is not set
 # CONFIG_LIBNVDIMM is not set
 # CONFIG_DEV_DAX is not set
 # CONFIG_NVMEM is not set
